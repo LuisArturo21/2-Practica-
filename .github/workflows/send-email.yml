@@ -1,0 +1,26 @@
+name: Enviar correos por cambios en ramas
+
+on:
+  push:
+    branches:
+      - main
+      - feature_a
+      - feature_b
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configurar acción
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Cambios subidos a rama ${{ github.ref_name }}
+          body: >
+            Se han subido cambios a la rama ${{ github.ref_name }}.
+          to: destinatario@correo.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          secure: true  # Activa TLS
