@@ -1,4 +1,4 @@
-name: Send Email on Branch Changes
+name: Notify on Branch Changes
 
 on:
   push:
@@ -12,20 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      # 1. Check out the code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - name: Send Email
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: ${{ secrets.SMTP_SERVER }}
-        server_port: ${{ secrets.SMTP_PORT }}
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: Cambios subidos a rama ${{ github.ref_name }}
-        body: |
-          Hola,
-          Se han realizado cambios en la rama: ${{ github.ref_name }}.
-          Verifica el repositorio para más detalles.
-        to: destinatario@example.com
-        from: ${{ secrets.EMAIL_USERNAME }}
+      # 2. Send email using "Send Email" action
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "Cambios subidos a rama ${{ github.ref_name }}"
+          body: |
+            Se han subido cambios a la rama ${{ github.ref_name }}.
+            Por favor revisa el repositorio.
+          to: "destinatario@example.com"
+          from: "Remitente <${{ secrets.GMAIL_USERNAME }}>"
