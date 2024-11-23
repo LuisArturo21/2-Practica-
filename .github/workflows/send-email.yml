@@ -15,7 +15,7 @@ jobs:
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
-          server_port: 587
+          server_port: 587  # Puerto para TLS
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Cambios subidos a rama ${{ github.ref_name }}
@@ -26,6 +26,6 @@ jobs:
 
             Saludos,
             Tu equipo
-          to: destinatario@example.com  # Cambia esto al correo del destinatario
+          to: destinatario@example.com
           from: ${{ secrets.EMAIL_USERNAME }}
-          secure: true  # Asegura que TLS esté habilitado
+          secure: true  # Habilita TLS
