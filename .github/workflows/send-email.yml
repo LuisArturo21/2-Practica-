@@ -28,5 +28,5 @@ jobs:
           body: |
             Se han subido cambios a la rama ${{ github.ref_name }}.
             Por favor revisa el repositorio.
-          to: "destinatario@gmail.com"
+          to: "practicadeldorx@gmail.com"
           from: "Remitente <${{ secrets.GMAIL_USERNAME }}>"
