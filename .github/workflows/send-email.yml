@@ -11,7 +11,7 @@ jobs:
   send_email:
     runs-on: ubuntu-latest
     steps:
-      - name: Configurar acción
+      - name: Enviar correo al realizar cambios
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
@@ -19,8 +19,13 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Cambios subidos a rama ${{ github.ref_name }}
-          body: >
-            Se han subido cambios a la rama ${{ github.ref_name }}.
-          to: destinatario@correo.com
+          body: |
+            Hola,
+
+            Se han subido cambios a la rama: ${{ github.ref_name }}.
+
+            Saludos,
+            Tu equipo
+          to: destinatario@example.com  # Cambia esto al correo del destinatario
           from: ${{ secrets.EMAIL_USERNAME }}
-          secure: true  # Activa TLS
+          secure: true  # Asegura que TLS esté habilitado
