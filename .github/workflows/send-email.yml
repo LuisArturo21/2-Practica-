@@ -1,4 +1,4 @@
-name: Enviar correos por cambios en ramas
+name: Send Email on Branch Changes
 
 on:
   push:
@@ -8,24 +8,24 @@ on:
       - feature_b
 
 jobs:
-  send_email:
+  send-email:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Enviar correo al realizar cambios
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.office365.com
-          server_port: 587  # Puerto para TLS
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Cambios subidos a rama ${{ github.ref_name }}
-          body: |
-            Hola,
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-            Se han subido cambios a la rama: ${{ github.ref_name }}.
-
-            Saludos,
-            Tu equipo
-          to: destinatario@example.com
-          from: ${{ secrets.EMAIL_USERNAME }}
-          secure: true  # Habilita TLS
+    - name: Send Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ secrets.SMTP_SERVER }}
+        server_port: ${{ secrets.SMTP_PORT }}
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: Cambios subidos a rama ${{ github.ref_name }}
+        body: |
+          Hola,
+          Se han realizado cambios en la rama: ${{ github.ref_name }}.
+          Verifica el repositorio para más detalles.
+        to: destinatario@example.com
+        from: ${{ secrets.EMAIL_USERNAME }}
